@@ -20,9 +20,7 @@ const Wrapper = styled.div`
 
   .active {
     color: red;
-
   }
-
 `
 
 const NavLinkStyled = styled(NavLink)`
