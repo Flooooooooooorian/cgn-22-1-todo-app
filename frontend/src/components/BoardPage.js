@@ -1,5 +1,6 @@
 import Board from "./Board";
 import {useParams} from "react-router-dom";
+import styled from "styled-components/macro";
 
 export default function BoardPage({todos, onAdvance, onDelete}) {
 
@@ -22,11 +23,18 @@ export default function BoardPage({todos, onAdvance, onDelete}) {
     const title = statusToTitle[statusSlug]
 
     return (
-        <Board
-            todos={filteredTodos}
-            onAdvance={onAdvance}
-            onDelete={onDelete}
-            title={title}
-        />
+        <Wrapper>
+            <Board
+                todos={filteredTodos}
+                onAdvance={onAdvance}
+                onDelete={onDelete}
+                title={title}
+            />
+        </Wrapper>
     )
 };
+
+const Wrapper = styled.div`
+  display: grid;
+  justify-items: center;
+`
