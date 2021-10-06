@@ -1,10 +1,12 @@
 import Header from "./components/Header";
-import BoardsOverview from "./components/BoardsOverview";
-import NewTodo from "./components/NewTodo";
 import styled from "styled-components/macro";
 import {useEffect, useState} from "react";
 import {deleteTodo, getTodos, postTodo, putTodo} from "./service/todo-api-service";
 import {getNextStatus} from "./service/todo-service";
+import NavigationBar from "./components/NavigationBar";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import Homepage from "./components/Homepage";
+import BoardPage from "./components/BoardPage";
 
 function App() {
 
@@ -28,22 +30,52 @@ function App() {
             .then(() => setTodos(todos.filter(todo => todo.id !== id)))
     }
 
-
     useEffect(() => {
         getTodos()
             .then(todos => setTodos(todos))
     }, [])
 
     return (
-        <PageLayout>
-            <Header/>
-            <BoardsOverview
-                todos={todos}
-                onAdvance={advanceTodo}
-                onDelete={removeTodo}
-            />
-            <NewTodo onAdd={addTodo}/>
-        </PageLayout>
+        <Router>
+            <PageLayout>
+                <Header/>
+                <NavigationBar/>
+                <Switch>
+                    <Route path="/" exact>
+                        <Homepage
+                            todos={todos}
+                            onAdvance={advanceTodo}
+                            onDelete={removeTodo}
+                            onAdd={addTodo}
+                        />
+                    </Route>
+                    <Route path="/todos/open">
+                        <BoardPage
+                            todos={todos}
+                            onAdvance={advanceTodo}
+                            onDelete={removeTodo}
+                            status="OPEN"
+                        />
+                    </Route>
+                    <Route path="/todos/in-progress">
+                        <BoardPage
+                            todos={todos}
+                            onAdvance={advanceTodo}
+                            onDelete={removeTodo}
+                            status="IN_PROGRESS"
+                        />
+                    </Route>
+                    <Route path="/todos/done">
+                        <BoardPage
+                            todos={todos}
+                            onAdvance={advanceTodo}
+                            onDelete={removeTodo}
+                            status="DONE"
+                        />
+                    </Route>
+                </Switch>
+            </PageLayout>
+        </Router>
     );
 }
 
@@ -57,6 +89,5 @@ const PageLayout = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: min-content 1fr min-content;
-
+  grid-template-rows: min-content min-content 1fr min-content;
 `
