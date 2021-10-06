@@ -57,7 +57,7 @@ function App() {
                             onDelete={removeTodo}
                         />
                     </Route>
-                    <Route path={"/details/:id"}>
+                    <Route path={"/todo/:id"}>
                         <DetailsPage/>
                     </Route>
                 </Switch>
