@@ -1,16 +1,25 @@
 import Board from "./Board";
+import {useParams} from "react-router-dom";
 
-export default function BoardPage({todos, status, onAdvance, onDelete}) {
+export default function BoardPage({todos, onAdvance, onDelete}) {
 
-    const filteredTodos = todos.filter(todo => todo.status === status)
+    const {statusSlug} = useParams()
 
-    const statusToTitle = {
-        OPEN: "Open",
-        IN_PROGRESS: "In Progress",
-        DONE: "Done"
+    const slugToStatus = {
+        "open": 'OPEN',
+        "in-progress": 'IN_PROGRESS',
+        "done": "DONE"
     }
 
-    const title = statusToTitle[status]
+    const filteredTodos = todos.filter(todo => todo.status === slugToStatus[statusSlug])
+
+    const statusToTitle = {
+        "open": "Open",
+        "in-progress": "In Progress",
+        "done": "Done"
+    }
+
+    const title = statusToTitle[statusSlug]
 
     return (
         <Board

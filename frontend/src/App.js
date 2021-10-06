@@ -49,28 +49,11 @@ function App() {
                             onAdd={addTodo}
                         />
                     </Route>
-                    <Route path="/todos/open">
+                    <Route path="/todos/:statusSlug">
                         <BoardPage
                             todos={todos}
                             onAdvance={advanceTodo}
                             onDelete={removeTodo}
-                            status="OPEN"
-                        />
-                    </Route>
-                    <Route path="/todos/in-progress">
-                        <BoardPage
-                            todos={todos}
-                            onAdvance={advanceTodo}
-                            onDelete={removeTodo}
-                            status="IN_PROGRESS"
-                        />
-                    </Route>
-                    <Route path="/todos/done">
-                        <BoardPage
-                            todos={todos}
-                            onAdvance={advanceTodo}
-                            onDelete={removeTodo}
-                            status="DONE"
                         />
                     </Route>
                 </Switch>
