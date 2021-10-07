@@ -10,6 +10,10 @@ export default function NewTodo({ onAdd }) {
   const [description, setDescription] = useState('')
 
   const handleClick = () => {
+    if (!description) {
+      return
+    }
+
     onAdd(description)
     setDescription('')
   }
