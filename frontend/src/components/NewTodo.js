@@ -1,25 +1,30 @@
-import styled from "styled-components/macro";
-import {useState} from "react";
+import styled from 'styled-components/macro'
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 
-export default function NewTodo({onAdd}) {
+NewTodo.propTypes = {
+  onAdd: PropTypes.func.isRequired,
+}
 
-    const [description, setDescription] = useState("");
+export default function NewTodo({ onAdd }) {
+  const [description, setDescription] = useState('')
 
-    const handleClick = () => {
-        onAdd(description)
-        setDescription("")
-    }
+  const handleClick = () => {
+    onAdd(description)
+    setDescription('')
+  }
 
-    return (
-        <FooterStyled>
-            <Input
-                placeholder="Add a description..."
-                value={description}
-                onChange={event => setDescription(event.target.value)}/>
-            <Button onClick={handleClick}>Add</Button>
-        </FooterStyled>
-    )
-};
+  return (
+    <FooterStyled>
+      <Input
+        placeholder="Add a description..."
+        value={description}
+        onChange={event => setDescription(event.target.value)}
+      />
+      <Button onClick={handleClick}>Add</Button>
+    </FooterStyled>
+  )
+}
 
 const FooterStyled = styled.footer`
   display: grid;
