@@ -1,26 +1,23 @@
 import {useParams} from "react-router-dom";
-import {getTodoBy} from "../service/todo-api-service";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import styled from "styled-components/macro";
+import useDetailedTodo from "../hooks/useDetailedTodo";
 
 export default function DetailsPage() {
 
-    const [todo, setTodo] = useState({})
     const {id} = useParams()
 
     useEffect(() => {
-        getTodoBy(id)
-            .then(response => response.data)
-            .then(data => setTodo(data))
-            .catch(error => console.error(error))
+        getTodoById(id)
+    }, [])
 
-    }, [id])
+    const {detailedTodo, getTodoById} = useDetailedTodo()
 
     return (
         <Wrapper>
             <h2>TODO</h2>
-            <SubTitle>{todo.status}  ({todo.id}) </SubTitle>
-            <p>{todo.description}</p>
+            <SubTitle>{detailedTodo.status}  ({detailedTodo.id}) </SubTitle>
+            <p>{detailedTodo.description}</p>
         </Wrapper>
     )
 }
