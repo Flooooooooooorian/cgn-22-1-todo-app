@@ -16,6 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prettify": "prettier --write .",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -40,6 +41,7 @@
   },
   "proxy": "http://localhost:8080",
   "devDependencies": {
+    "prettier": "2.4.1",
     "prop-types": "15.7.2"
   }
 }
