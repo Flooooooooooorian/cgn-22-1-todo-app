@@ -7,11 +7,11 @@ export default function DetailsPage() {
 
     const {id} = useParams()
 
+    const {detailedTodo, getTodoById} = useDetailedTodo()
+
     useEffect(() => {
         getTodoById(id)
-    }, [])
-
-    const {detailedTodo, getTodoById} = useDetailedTodo()
+    }, [id, getTodoById])
 
     return (
         <Wrapper>
