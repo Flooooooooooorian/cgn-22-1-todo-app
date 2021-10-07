@@ -28,3 +28,9 @@ export const deleteTodo = (id) => {
   return axios
       .delete(`/api/todo/${id}`);
 };
+
+
+export const getTodoBy = (id) => {
+  return axios
+      .get(`/api/todo/${id}`)
+}
