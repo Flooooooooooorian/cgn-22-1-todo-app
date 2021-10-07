@@ -1,5 +1,13 @@
 import styled from "styled-components/macro";
 import TodoItem from "./TodoItem";
+import PropTypes from "prop-types";
+
+Board.propTypes = {
+    title: PropTypes.string.isRequired,
+    todos: PropTypes.array.isRequired,
+    onAdvance: PropTypes.func,
+    onDelete: PropTypes.func,
+};
 
 export default function Board({title, todos, onAdvance, onDelete}) {
     return (
