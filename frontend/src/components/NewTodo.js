@@ -9,28 +9,28 @@ NewTodo.propTypes = {
 export default function NewTodo({ onAdd }) {
   const [description, setDescription] = useState('')
 
-  const handleClick = () => {
+  const handleClick = event => {
+    event.preventDefault()
     if (!description) {
       return
     }
-
     onAdd(description)
     setDescription('')
   }
 
   return (
-    <FooterStyled>
+    <Form onSubmit={handleClick}>
       <Input
         placeholder="Add a description..."
         value={description}
         onChange={event => setDescription(event.target.value)}
       />
-      <Button onClick={handleClick}>Add</Button>
-    </FooterStyled>
+      <Button>Add</Button>
+    </Form>
   )
 }
 
-const FooterStyled = styled.footer`
+const Form = styled.form`
   display: grid;
   grid-template-columns: 80% 20%;
   align-items: center;
