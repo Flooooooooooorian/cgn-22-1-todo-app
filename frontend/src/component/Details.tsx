@@ -7,9 +7,7 @@ export default function Details(){
     const params = useParams()
     const id = params.id as string
 
-    //const todo:Todo|undefined = useTodo(id)
+    const todo:Todo|undefined = useTodo(id)
 
-    return <>Details {id} </>
+    return <>Details {id} {todo && todo.description}</>
 }
-
-//{todo ? todo.description : "Leider nicht gefunden."}
