@@ -1,0 +1,29 @@
+
+.board {
+    background: grey;
+    width: 350px;
+    text-align: center;
+}
+
+.board-title{
+    padding: 15px;
+    margin: 0px;
+    background: green;
+}
+
+button {
+    border: 0;
+    margin: 5px;
+    border-radius: 1px;
+    padding: 4px;
+    box-shadow: 3px 3px 3px #6b6b6b;
+    background: #424242;
+    color: white;
+}
+
+button:hover {
+    background-color: #6e6e6e;
+
+}
+
+

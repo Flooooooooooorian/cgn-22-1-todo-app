@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro'
+import "./BoardsOverview.css"
 import Board from './Board'
 import {Todo} from "../model/Todo";
 
@@ -14,7 +14,7 @@ export default function BoardsOverview({ todos, onAdvance, onDelete }: BoardsOve
   const doneTodos = todos.filter(todo => todo.status === 'DONE')
 
   return (
-    <Main>
+    <main>
       <Board title="Open" todos={openTodos} onAdvance={onAdvance} />
       <Board
         title="In Progress"
@@ -22,13 +22,7 @@ export default function BoardsOverview({ todos, onAdvance, onDelete }: BoardsOve
         onAdvance={onAdvance}
       />
       <Board title="Done" todos={doneTodos} onDelete={onDelete} />
-    </Main>
+    </main>
   )
 }
 
-const Main = styled.main`
-  overflow-y: scroll;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
-`

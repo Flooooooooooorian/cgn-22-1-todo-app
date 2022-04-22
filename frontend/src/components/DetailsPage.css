@@ -1,0 +1,14 @@
+
+
+.detail {
+    text-align: center;
+    margin: 12px;
+    background: darkgrey;
+    color: black;
+}
+
+
+.detail__description {
+    font-style: italic;
+    font-size: 90% ;
+}

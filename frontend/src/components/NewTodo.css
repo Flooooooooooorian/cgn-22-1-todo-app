@@ -1,0 +1,20 @@
+
+.add-button {
+    padding: 12px;
+}
+
+
+.add-form {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    align-items: center;
+    justify-items: center;
+    margin: 18px;
+}
+
+.description-input {
+    padding: 10px;
+    border-radius: 7px;
+    width: 80%;
+    justify-self: end;
+}
