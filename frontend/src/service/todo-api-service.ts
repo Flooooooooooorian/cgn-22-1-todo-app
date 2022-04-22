@@ -2,11 +2,8 @@ import axios from 'axios'
 import {Todo} from "../model/Todo";
 
 export function getTodos() {
-  return axios.get("/api/todo")
-      .then(response => {
-        return response.data
-      })
-      .catch(console.error)
+  return axios.get<Todo[]>("/api/todo")
+      .then(response => response.data)
 }
 
 export const postTodo = (newDescription: string) => {
