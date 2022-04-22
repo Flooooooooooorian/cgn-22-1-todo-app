@@ -7,9 +7,6 @@ export default function NavigationBar() {
       <NavLinkStyled to="/" exact>
         Home
       </NavLinkStyled>
-      <NavLinkStyled to="/todos/open">Open</NavLinkStyled>
-      <NavLinkStyled to="/todos/in-progress">In Progress</NavLinkStyled>
-      <NavLinkStyled to="/todos/done">Done</NavLinkStyled>
     </Wrapper>
   )
 }

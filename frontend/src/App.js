@@ -2,43 +2,32 @@ import Header from './components/Header'
 import styled from 'styled-components/macro'
 
 import NavigationBar from './components/NavigationBar'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import Homepage from './components/Homepage'
-import BoardPage from './components/BoardPage'
 import DetailsPage from './components/DetailsPage'
 import useTodos from './hooks/useTodos'
 
 function App() {
-  const { todos, addTodo, advanceTodo, removeTodo } = useTodos()
+    const {todos, addTodo, advanceTodo, removeTodo} = useTodos()
 
-  return (
-    <Router>
-      <PageLayout>
-        <Header />
-        <NavigationBar />
-        <Switch>
-          <Route path="/" exact>
-            <Homepage
-              todos={todos}
-              onAdvance={advanceTodo}
-              onDelete={removeTodo}
-              onAdd={addTodo}
-            />
-          </Route>
-          <Route path="/todos/:statusSlug">
-            <BoardPage
-              todos={todos}
-              onAdvance={advanceTodo}
-              onDelete={removeTodo}
-            />
-          </Route>
-          <Route path={'/todo/:id'}>
-            <DetailsPage />
-          </Route>
-        </Switch>
-      </PageLayout>
-    </Router>
-  )
+    return (
+        <BrowserRouter>
+            <PageLayout>
+                <Header/>
+                <NavigationBar/>
+                <Routes>
+                    <Route path="/" element={<Homepage
+                        todos={todos}
+                        onAdvance={advanceTodo}
+                        onDelete={removeTodo}
+                        onAdd={addTodo}
+                        />}
+                    />
+                    <Route path={'/todo/:id'} element={<DetailsPage/>}/>
+                </Routes>
+            </PageLayout>
+        </BrowserRouter>
+    )
 }
 
 export default App
