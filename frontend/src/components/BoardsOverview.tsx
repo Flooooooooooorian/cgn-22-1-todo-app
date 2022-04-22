@@ -1,7 +1,14 @@
 import styled from 'styled-components/macro'
 import Board from './Board'
+import {Todo} from "../model/Todo";
 
-export default function BoardsOverview({ todos, onAdvance, onDelete }) {
+type BoardsOverviewProps = {
+    todos: Todo[]
+    onAdvance: (todo: Todo) => void
+    onDelete: (id: string) => void
+}
+
+export default function BoardsOverview({ todos, onAdvance, onDelete }: BoardsOverviewProps) {
   const openTodos = todos.filter(todo => todo.status === 'OPEN')
   const inProgressTodos = todos.filter(todo => todo.status === 'IN_PROGRESS')
   const doneTodos = todos.filter(todo => todo.status === 'DONE')

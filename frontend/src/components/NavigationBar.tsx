@@ -4,7 +4,7 @@ import styled from 'styled-components/macro'
 export default function NavigationBar() {
   return (
     <Wrapper>
-      <NavLinkStyled to="/" exact>
+      <NavLinkStyled to="/" >
         Home
       </NavLinkStyled>
     </Wrapper>

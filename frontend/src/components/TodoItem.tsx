@@ -1,14 +1,14 @@
 import styled from 'styled-components/macro'
 import { useNavigate } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import {Todo} from "../model/Todo";
 
-TodoItem.propTypes = {
-  todos: PropTypes.array,
-  onAdvance: PropTypes.func,
-  onDelete: PropTypes.func,
+type TodoItemProps = {
+  todo: Todo
+  onAdvance?: (todo: Todo) => void
+  onDelete?: (id: string) => void
 }
 
-export default function TodoItem({ todo, onAdvance, onDelete }) {
+export default function TodoItem({ todo, onAdvance, onDelete }: TodoItemProps) {
   const navigate = useNavigate()
 
   return (

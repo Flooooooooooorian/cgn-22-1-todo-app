@@ -1,20 +1,22 @@
 import styled from 'styled-components/macro'
 import TodoItem from './TodoItem'
-import PropTypes from 'prop-types'
+import {Todo} from "../model/Todo";
 
-Board.propTypes = {
-  title: PropTypes.string.isRequired,
-  todos: PropTypes.array.isRequired,
-  onAdvance: PropTypes.func,
-  onDelete: PropTypes.func,
+type BoardProps = {
+  title: string
+  todos: Todo[]
+  onAdvance?: (todo: Todo) => void
+  onDelete?: (id: string) => void
 }
 
-export default function Board({ title, todos, onAdvance, onDelete }) {
+
+
+export default function Board({ title, todos, onAdvance, onDelete } : BoardProps) {
   return (
     <section>
       <h2>{title}</h2>
       <List>
-        {todos.map(todo => {
+        {todos.map((todo: Todo) => {
           return (
             <li key={todo.id}>
               <TodoItem todo={todo} onAdvance={onAdvance} onDelete={onDelete} />

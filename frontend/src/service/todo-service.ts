@@ -3,6 +3,6 @@ const getNextTodoStatus = {
   IN_PROGRESS: 'DONE',
 }
 
-export const getNextStatus = status => {
+export const getNextStatus = (status: string) => {
   return getNextTodoStatus[status]
 }

@@ -1,15 +1,15 @@
 import styled from 'styled-components/macro'
-import { useState } from 'react'
-import PropTypes from 'prop-types'
+import {FormEvent, useState} from 'react'
 
-NewTodo.propTypes = {
-  onAdd: PropTypes.func.isRequired,
+
+type NewTodoProps = {
+  onAdd: (description: string) => void
 }
 
-export default function NewTodo({ onAdd }) {
+export default function NewTodo({ onAdd } : NewTodoProps) {
   const [description, setDescription] = useState('')
 
-  const handleClick = event => {
+  const handleClick = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!description) {
       return

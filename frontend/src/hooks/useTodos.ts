@@ -6,30 +6,32 @@ import {
   putTodo,
 } from '../service/todo-api-service'
 import { getNextStatus } from '../service/todo-service'
+import {Todo} from "../model/Todo";
 
 export default function useTodos() {
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState<Todo[]>([]);
 
-  const addTodo = description => {
+  const addTodo = (description: string) => {
     postTodo(description).then(addedTodo => setTodos([...todos, addedTodo]))
   }
 
-  const advanceTodo = todo => {
+  const advanceTodo = (todo: Todo) => {
     const newStatus = getNextStatus(todo.status)
     const advancedTodo = { ...todo, status: newStatus }
     putTodo(advancedTodo).then(updatedTodo =>
       setTodos(
-        todos.map(item => (updatedTodo.id === item.id ? advancedTodo : item))
+        todos.map((item: Todo) => (updatedTodo.id === item.id ? advancedTodo : item))
       )
     )
   }
 
-  const removeTodo = id => {
+  const removeTodo = (id: string) => {
     deleteTodo(id).then(() => setTodos(todos.filter(todo => todo.id !== id)))
   }
 
   useEffect(() => {
-    getTodos().then(todos => setTodos(todos))
+    getTodos()
+        .then(todos => setTodos(todos));
   }, [])
 
   return { todos, addTodo, advanceTodo, removeTodo }
