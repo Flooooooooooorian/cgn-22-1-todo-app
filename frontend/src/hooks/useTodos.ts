@@ -27,7 +27,8 @@ export default function useTodos() {
 
   useEffect(() => {
     getTodos()
-        .then(todos => setTodos(todos));
+        .then((todos) => setTodos(todos))
+        .catch(console.error)
   }, [])
 
   return { todos, addTodo, advanceTodo, removeTodo }
