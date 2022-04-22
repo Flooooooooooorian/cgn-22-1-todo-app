@@ -1,7 +1,7 @@
 import {useParams} from 'react-router-dom'
 import {useEffect} from 'react'
-import styled from 'styled-components/macro'
 import useDetailedTodo from '../hooks/useDetailedTodo'
+import './DetailsPage.css'
 
 export default function DetailsPage() {
     const {id} = useParams()
@@ -15,25 +15,17 @@ export default function DetailsPage() {
     }, [id, getTodoById])
 
     return (
-        <Wrapper>
+        <div className={"detail"}>
             <h2>TODO</h2>
             {detailedTodo &&
-                <div>
-                    <SubTitle>
+                <div >
+                    <p className={"detail__description"}>
                         {detailedTodo.status} ({detailedTodo.id}){' '}
-                    </SubTitle>
-                    <p>{detailedTodo.description}</p>
+                    </p>
+                    <p >{detailedTodo.description}</p>
                 </div>}
-        </Wrapper>
+        </div>
     )
 }
 
-const Wrapper = styled.div`
-  text-align: center;
-  margin: 12px;
-`
 
-const SubTitle = styled.p`
-  font-style: italic;
-  font-size: 90%;
-`

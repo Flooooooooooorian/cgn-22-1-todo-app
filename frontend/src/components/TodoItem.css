@@ -1,0 +1,10 @@
+
+.todo-item {
+    border: 3px solid grey;
+    text-align: left;
+    color: black;
+    background-color: darkgrey;
+    border-radius: 7px;
+    padding: 12px;
+    margin: 12px;
+}

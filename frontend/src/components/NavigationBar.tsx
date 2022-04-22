@@ -1,27 +1,14 @@
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components/macro'
+import {NavLink} from "react-router-dom";
+import './NavigationBar.css'
 
 export default function NavigationBar() {
   return (
-    <Wrapper>
-      <NavLinkStyled to="/" >
+    <div className={"navigation-bar"}>
+      <NavLink to="/" className={"nav-link"}>
         Home
-      </NavLinkStyled>
-    </Wrapper>
+      </NavLink>
+    </div>
   )
 }
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  font-size: 1.2em;
 
-  .active {
-    color: red;
-  }
-`
-
-const NavLinkStyled = styled(NavLink)`
-  text-decoration: none;
-`

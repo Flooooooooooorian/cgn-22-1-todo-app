@@ -1,5 +1,5 @@
-import styled from 'styled-components/macro'
 import {FormEvent, useState} from 'react'
+import './NewTodo.css'
 
 
 type NewTodoProps = {
@@ -19,33 +19,15 @@ export default function NewTodo({ onAdd } : NewTodoProps) {
   }
 
   return (
-    <Form onSubmit={handleClick}>
-      <Input
+    <form onSubmit={handleClick} className={"add-form"}>
+      <input className={"description-input"}
         placeholder="Add a description..."
         value={description}
         onChange={event => setDescription(event.target.value)}
       />
-      <Button>Add</Button>
-    </Form>
+      <button className={"add-button"}> Add </button>
+    </form>
   )
 }
 
-const Form = styled.form`
-  display: grid;
-  grid-template-columns: 80% 20%;
-  align-items: center;
-  justify-items: center;
-  margin-bottom: 18px;
-`
 
-const Input = styled.input`
-  padding: 10px;
-  border-radius: 10px;
-  width: 80%;
-  justify-self: end;
-`
-
-const Button = styled.button`
-  padding: 10px;
-  border-radius: 10px;
-`
