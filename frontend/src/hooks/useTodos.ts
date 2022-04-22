@@ -1,11 +1,6 @@
-import { useEffect, useState } from 'react'
-import {
-  deleteTodo,
-  getTodos,
-  postTodo,
-  putTodo,
-} from '../service/todo-api-service'
-import { getNextStatus } from '../service/todo-service'
+import {useEffect, useState} from 'react'
+import {deleteTodo, getTodos, postTodo, putTodo,} from '../service/todo-api-service'
+import {getNextStatus} from '../service/todo-service'
 import {Todo} from "../model/Todo";
 
 export default function useTodos() {
@@ -18,9 +13,10 @@ export default function useTodos() {
   const advanceTodo = (todo: Todo) => {
     const newStatus = getNextStatus(todo.status)
     const advancedTodo = { ...todo, status: newStatus }
-    putTodo(advancedTodo).then(updatedTodo =>
-      setTodos(
-        todos.map((item: Todo) => (updatedTodo.id === item.id ? advancedTodo : item))
+    putTodo(advancedTodo)
+        .then(updatedTodo =>
+            setTodos(
+                todos.map((item: Todo) => (updatedTodo.id === item.id ? advancedTodo : item))
       )
     )
   }
