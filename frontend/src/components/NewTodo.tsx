@@ -1,4 +1,4 @@
-import {FormEvent, useState} from 'react'
+import {FormEvent, FormEventHandler, useState} from 'react'
 import './NewTodo.css'
 
 
@@ -9,7 +9,7 @@ type NewTodoProps = {
 export default function NewTodo({ onAdd } : NewTodoProps) {
   const [description, setDescription] = useState('')
 
-  const handleClick = (event: FormEvent<HTMLFormElement>) => {
+  const handleClick: FormEventHandler = (event) => {
     event.preventDefault()
     if (!description) {
       return
@@ -25,7 +25,7 @@ export default function NewTodo({ onAdd } : NewTodoProps) {
         value={description}
         onChange={event => setDescription(event.target.value)}
       />
-      <button className={"add-button"}> Add </button>
+      <button type={"submit"} className={"add-button"}> Add </button>
     </form>
   )
 }

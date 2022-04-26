@@ -16,11 +16,7 @@ export default function BoardsOverview({ todos, onAdvance, onDelete }: BoardsOve
   return (
     <main>
       <Board title="Open" todos={openTodos} onAdvance={onAdvance} />
-      <Board
-        title="In Progress"
-        todos={inProgressTodos}
-        onAdvance={onAdvance}
-      />
+      <Board title="In Progress" todos={inProgressTodos} onAdvance={onAdvance} />
       <Board title="Done" todos={doneTodos} onDelete={onDelete} />
     </main>
   )
