@@ -6,12 +6,15 @@ import Homepage from './components/Homepage'
 import DetailsPage from './components/DetailsPage'
 import useTodos from './hooks/useTodos'
 import './App.css'
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const {todos, addTodo, advanceTodo, removeTodo} = useTodos()
 
     return (
         <BrowserRouter>
+            <ToastContainer />
             <div className={"page-layout"}>
                 <Header/>
                 <NavigationBar/>
