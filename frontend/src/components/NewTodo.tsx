@@ -1,4 +1,4 @@
-import {FormEvent, FormEventHandler, useState} from 'react'
+import {FormEventHandler, useState} from 'react'
 import './NewTodo.css'
 
 
