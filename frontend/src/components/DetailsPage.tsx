@@ -7,11 +7,12 @@ export default function DetailsPage() {
     const {id} = useParams()
 
     const {detailedTodo, getTodoById} = useDetailedTodo()
-
+    
     useEffect(() => {
         if (id) {
             getTodoById(id)
         }
+        //eslint-disable-next-line
     }, [id])
 
     return (

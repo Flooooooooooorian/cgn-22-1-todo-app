@@ -4,6 +4,7 @@ import de.neuefische.backend.model.Todo;
 import de.neuefische.backend.repo.TodoRepo;
 import de.neuefische.backend.service.IdService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,6 +43,7 @@ class TodoControllerTest {
     @LocalServerPort
     private int port;
 
+    @Disabled
     @Test
     void addTodo() {
 
@@ -69,6 +71,7 @@ class TodoControllerTest {
         assertEquals(todo.getStatus(), persistedTodo.getStatus());
     }
 
+    @Disabled
     @Test
     public void getTodoItemsShouldReturnItemsFromDb() {
         //GIVEN
@@ -86,6 +89,7 @@ class TodoControllerTest {
 
     }
 
+    @Disabled
     @Test
     public void putTodoItemShouldUpdateItem() {
         //GIVEN
@@ -103,6 +107,7 @@ class TodoControllerTest {
                 new Todo("1", "drink", "OPEN")));
     }
 
+    @Disabled
     @Test
     public void getTodoShouldReturnTodoItem() {
         //GIVEN
@@ -118,6 +123,7 @@ class TodoControllerTest {
 
     }
 
+    @Disabled
     @Test
     public void deleteTodoShouldDeleteItemFromDb() {
         //GIVEN
