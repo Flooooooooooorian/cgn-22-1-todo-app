@@ -1,5 +1,6 @@
 import {FormEventHandler, useState} from 'react'
 import './NewTodo.css'
+import {toast} from "react-toastify";
 
 
 type NewTodoProps = {
@@ -12,6 +13,7 @@ export default function NewTodo({ onAdd } : NewTodoProps) {
   const handleClick: FormEventHandler = (event) => {
     event.preventDefault()
     if (!description) {
+      toast.info("Please enter description!")
       return
     }
     onAdd(description)

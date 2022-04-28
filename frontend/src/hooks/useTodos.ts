@@ -10,7 +10,7 @@ export default function useTodos() {
     const addTodo = (description: string) => {
         postTodo(description).then(addedTodo => setTodos([...todos, addedTodo]))
             .then(() => toast.success("Todo Added"))
-            .catch((error) => toast.error(error))
+            .catch(() => toast.error("Error while adding todo!"))
     }
 
     const advanceTodo = (todo: Todo) => {
@@ -23,21 +23,21 @@ export default function useTodos() {
                 )
             )
             .then(() => toast.success("Todo advanced"))
-            .catch((error) => toast.error(error))
+            .catch(() => toast.error("Error while advancing todo!"))
     }
 
     const removeTodo = (id: string) => {
         deleteTodo(id)
             .then(() => setTodos(todos.filter(todo => todo.id !== id)))
             .then(() => toast.success("Todo removed"))
-            .catch((error) => toast.error(error))
+            .catch(() => toast.error("Error while removing todo!"))
     }
 
     useEffect(() => {
         getTodos()
             .then((todos) => setTodos(todos))
             .then(() => toast.success("Done"))
-            .catch((error) => toast.error(error))
+            .catch(() => toast.error("Error while retrieving todos!"))
     }, [])
 
     return {todos, addTodo, advanceTodo, removeTodo}
