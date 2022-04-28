@@ -43,7 +43,6 @@ class TodoControllerTest {
     @LocalServerPort
     private int port;
 
-    @Disabled
     @Test
     void addTodo() {
 
@@ -71,7 +70,6 @@ class TodoControllerTest {
         assertEquals(todo.getStatus(), persistedTodo.getStatus());
     }
 
-    @Disabled
     @Test
     public void getTodoItemsShouldReturnItemsFromDb() {
         //GIVEN
@@ -89,7 +87,6 @@ class TodoControllerTest {
 
     }
 
-    @Disabled
     @Test
     public void putTodoItemShouldUpdateItem() {
         //GIVEN
@@ -107,7 +104,6 @@ class TodoControllerTest {
                 new Todo("1", "drink", "OPEN")));
     }
 
-    @Disabled
     @Test
     public void getTodoShouldReturnTodoItem() {
         //GIVEN
@@ -123,7 +119,6 @@ class TodoControllerTest {
 
     }
 
-    @Disabled
     @Test
     public void deleteTodoShouldDeleteItemFromDb() {
         //GIVEN
