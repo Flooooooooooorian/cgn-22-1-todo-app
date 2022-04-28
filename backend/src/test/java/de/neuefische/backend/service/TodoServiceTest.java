@@ -31,13 +31,13 @@ class TodoServiceTest {
         updatedTodoItem.setStatus("IN PROGRESS");
 
         when(todoRepo.existsById(any())).thenReturn(true);
-        when(todoRepo.updateTodo(any())).thenReturn(updatedTodoItem);
+        when(todoRepo.save(any())).thenReturn(updatedTodoItem);
 
         // WHEN
         Todo actual = todoService.updateTodo(todoToUpdate);
 
         // THEN
-        verify(todoRepo).updateTodo(todoToUpdate);
+        verify(todoRepo).save(todoToUpdate);
         assertThat(actual, is(updatedTodoItem));
     }
 

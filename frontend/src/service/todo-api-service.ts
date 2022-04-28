@@ -7,8 +7,7 @@ export const getTodos: () => Promise<Todo[]> = () => {
 }
 
 export const postTodo: (newDescription: string) => Promise<Todo> = (newDescription) => {
-    const newTodo: Todo = {
-        id: "new",
+    const newTodo = {
         description: newDescription,
         status: 'OPEN',
     }
