@@ -33,7 +33,7 @@ class TodoControllerTest {
 
     @BeforeEach
     public void clearDb() {
-        repository.clear();
+        repository.deleteAll();
     }
 
     @MockBean
@@ -55,7 +55,8 @@ class TodoControllerTest {
         // THEN
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
         assertNotNull(actual);
-        assertEquals(new Todo("1", "Dinge tun", "OPEN"), actual);
+        assertEquals("Dinge tun",  actual.getDescription());
+        assertEquals("OPEN",  actual.getStatus());
 
         // THEN: check via GET if element was created
         String actualId = actual.getId();
@@ -71,8 +72,8 @@ class TodoControllerTest {
     @Test
     public void getTodoItemsShouldReturnItemsFromDb() {
         //GIVEN
-        repository.addTodo(new Todo("1", "sleep", "OPEN"));
-        repository.addTodo(new Todo("2", "chill ", "IN_PROGRESS"));
+        repository.insert(new Todo("1", "sleep", "OPEN"));
+        repository.insert(new Todo("2", "chill ", "IN_PROGRESS"));
 
         //WHEN
         ResponseEntity<Todo[]> response = restTemplate.getForEntity("/api/todo", Todo[].class);
@@ -88,15 +89,15 @@ class TodoControllerTest {
     @Test
     public void putTodoItemShouldUpdateItem() {
         //GIVEN
-        repository.addTodo(new Todo("1", "sleep", "OPEN"));
-        repository.addTodo(new Todo("2", "chill", "IN_PROGRESS"));
+        repository.insert(new Todo("1", "sleep", "OPEN"));
+        repository.insert(new Todo("2", "chill", "IN_PROGRESS"));
 
         //WHEN
         Todo updatedTodo = new Todo("1", "drink", "OPEN");
         restTemplate.put("/api/todo/1", updatedTodo, Todo.class);
 
         //THEN
-        List<Todo> todoItems = repository.getTodos();
+        List<Todo> todoItems = repository.findAll();
         assertThat(todoItems, containsInAnyOrder(
                 new Todo("2", "chill", "IN_PROGRESS"),
                 new Todo("1", "drink", "OPEN")));
@@ -105,8 +106,8 @@ class TodoControllerTest {
     @Test
     public void getTodoShouldReturnTodoItem() {
         //GIVEN
-        repository.addTodo(new Todo("1", "sleep", "OPEN"));
-        repository.addTodo(new Todo("2", "chill", "IN_PROGRESS"));
+        repository.insert(new Todo("1", "sleep", "OPEN"));
+        repository.insert(new Todo("2", "chill", "IN_PROGRESS"));
 
         //WHEN
         ResponseEntity<Todo> response = restTemplate.getForEntity("/api/todo/2", Todo.class);
@@ -120,14 +121,14 @@ class TodoControllerTest {
     @Test
     public void deleteTodoShouldDeleteItemFromDb() {
         //GIVEN
-        repository.addTodo(new Todo("1", "sleep", "OPEN"));
-        repository.addTodo(new Todo("2", "chill", "IN_PROGRESS"));
+        repository.insert(new Todo("1", "sleep", "OPEN"));
+        repository.insert(new Todo("2", "chill", "IN_PROGRESS"));
 
         //WHEN
         restTemplate.delete("http://localhost:" + port + "/api/todo/2");
 
         //THEN
-        List<Todo> todoItems = repository.getTodos();
+        List<Todo> todoItems = repository.findAll();
         assertEquals(todoItems, List.of(new Todo("1", "sleep", "OPEN")));
     }
 

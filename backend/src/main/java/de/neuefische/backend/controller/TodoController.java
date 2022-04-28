@@ -1,5 +1,6 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.dto.CreateTodoDto;
 import de.neuefische.backend.model.Todo;
 import de.neuefische.backend.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class TodoController {
     }
 
     @PostMapping
-    public Todo addTodo(@RequestBody Todo todo){
+    public Todo addTodo(@RequestBody CreateTodoDto todo){
         return todoService.addTodo(todo);
     }
 
