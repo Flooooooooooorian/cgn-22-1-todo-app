@@ -12,7 +12,7 @@ export default function DetailsPage() {
         if (id) {
             getTodoById(id)
         }
-    }, [id, getTodoById])
+    }, [id])
 
     return (
         <div className={"detail"}>

@@ -21,27 +21,27 @@ public class TodoService {
     }
 
     public List<Todo> getTodos() {
-        return todoRepo.getTodos();
+        return todoRepo.findAll();
     }
 
     public Todo addTodo(Todo todo) {
         todo.setId(idService.generateId());
-        return todoRepo.addTodo(todo);
+        return todoRepo.save(todo);
     }
 
     public Todo updateTodo(Todo todo) {
         if(todoRepo.existsById(todo.getId())){
-            return todoRepo.updateTodo(todo);
+            return todoRepo.save(todo);
         } else{
             throw new NoSuchElementException("Could not update Todo element! Element with id does not exist: " + todo.getId());
         }
     }
 
     public void deleteTodo(String id) {
-        todoRepo.deleteTodo(id);
+        todoRepo.deleteById(id);
     }
 
     public Todo getTodo(String id) {
-        return todoRepo.findById(id);
+        return todoRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Todo with id: " + id + " not found!"));
     }
 }
