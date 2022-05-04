@@ -13,12 +13,10 @@ import java.util.NoSuchElementException;
 public class TodoService {
 
     private final TodoRepo todoRepo;
-    private final IdService idService;
 
     @Autowired
-    public TodoService(TodoRepo todoRepo, IdService idService) {
+    public TodoService(TodoRepo todoRepo) {
         this.todoRepo = todoRepo;
-        this.idService = idService;
     }
 
     public List<Todo> getTodos() {
