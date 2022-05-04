@@ -14,8 +14,7 @@ import static org.mockito.Mockito.*;
 class TodoServiceTest {
 
     TodoRepo todoRepo = mock(TodoRepo.class);
-    IdService idService = mock(IdService.class);
-    TodoService todoService = new TodoService(todoRepo, idService);
+    TodoService todoService = new TodoService(todoRepo);
 
     @Test
     void testUpdateTodo() {
