@@ -2,10 +2,13 @@ package de.neuefische.backend.controller;
 
 import de.neuefische.backend.model.Todo;
 import de.neuefische.backend.repo.TodoRepo;
+import de.neuefische.backend.security.model.AppUser;
+import de.neuefische.backend.security.repository.AppUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
@@ -16,8 +19,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(webEnvironment =
-        SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TodoControllerTest {
 
     @Autowired
@@ -26,9 +28,20 @@ class TodoControllerTest {
     @Autowired
     private TodoRepo repository;
 
+    @Autowired
+    private AppUserRepository appUserRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private String dummyJwt;
+
     @BeforeEach
     public void clearDb() {
         repository.deleteAll();
+        appUserRepository.deleteAll();
+
+        dummyJwt = generateDummyJWT();
     }
 
     @Test
@@ -41,6 +54,7 @@ class TodoControllerTest {
         Todo actual = webTestClient.post()
                 .uri("/api/todo")
                 .bodyValue(todo)
+                .headers(http -> http.setBearerAuth(dummyJwt))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Todo.class)
@@ -56,6 +70,7 @@ class TodoControllerTest {
         String actualId = actual.getId();
         Todo persistedTodo = webTestClient.get()
                 .uri("/api/todo/" + actualId)
+                .headers(http -> http.setBearerAuth(dummyJwt))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Todo.class)
@@ -78,6 +93,7 @@ class TodoControllerTest {
         //WHEN
         List<Todo> actual = webTestClient.get()
                 .uri("/api/todo")
+                .headers(http -> http.setBearerAuth(dummyJwt))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Todo.class)
@@ -102,6 +118,7 @@ class TodoControllerTest {
         webTestClient.put()
                 .uri("/api/todo/1")
                 .bodyValue(updatedTodo)
+                .headers(http -> http.setBearerAuth(dummyJwt))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Todo.class)
@@ -124,6 +141,7 @@ class TodoControllerTest {
         //WHEN
         Todo actual = webTestClient.get()
                 .uri("/api/todo/2")
+                .headers(http -> http.setBearerAuth(dummyJwt))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Todo.class)
@@ -132,7 +150,6 @@ class TodoControllerTest {
 
         //THEN
         assertThat(actual, is(new Todo("2", "chill", "IN_PROGRESS")));
-
     }
 
     @Test
@@ -144,6 +161,7 @@ class TodoControllerTest {
         //WHEN
         webTestClient.delete()
                 .uri("/api/todo/2")
+                .headers(http -> http.setBearerAuth(dummyJwt))
                 .exchange()
                 .expectStatus().isOk();
 
@@ -151,4 +169,28 @@ class TodoControllerTest {
         List<Todo> todoItems = repository.findAll();
         assertEquals(todoItems, List.of(new Todo("1", "sleep", "OPEN")));
     }
+
+    private String generateDummyJWT() {
+        // Create dummy user in test DB
+        AppUser dummyUser = AppUser.builder()
+                .username("test_username")
+                .password(passwordEncoder.encode("some-password"))
+                .build();
+
+        appUserRepository.save(dummyUser);
+
+        // Get JWT via login
+        String jwt = webTestClient.post()
+                .uri("/auth/login")
+                .bodyValue(dummyUser
+                            .withPassword("some-password"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
+
+        return jwt;
+    }
+
 }
