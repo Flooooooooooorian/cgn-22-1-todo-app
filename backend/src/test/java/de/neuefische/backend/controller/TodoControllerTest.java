@@ -2,67 +2,84 @@ package de.neuefische.backend.controller;
 
 import de.neuefische.backend.model.Todo;
 import de.neuefische.backend.repo.TodoRepo;
-import de.neuefische.backend.service.IdService;
+import de.neuefische.backend.security.model.AppUser;
+import de.neuefische.backend.security.repository.AppUserRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.collection.ArrayMatching.arrayContainingInAnyOrder;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment =
         SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TodoControllerTest {
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private WebTestClient webTestClient;
 
     @Autowired
     private TodoRepo repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AppUserRepository appUserRepository;
+
+
+    private String dummyJwt;
+
+
     @BeforeEach
     public void clearDb() {
         repository.deleteAll();
+        appUserRepository.deleteAll();
+
+        dummyJwt = generateJwt();
     }
-
-    @MockBean
-    private IdService idService;
-
-    @LocalServerPort
-    private int port;
 
     @Test
     void addTodo() {
 
         // GIVE
         Todo todo = new Todo(null, "Dinge tun", "OPEN");
-        when(idService.generateId()).thenReturn("1");
+
         // WHEN
-        ResponseEntity<Todo> postResponse = restTemplate.postForEntity("/api/todo", todo, Todo.class);
-        Todo actual = postResponse.getBody();
+        Todo actual = webTestClient.post()
+                .uri("/api/todo")
+                .headers(http -> http.setBearerAuth(dummyJwt))
+                .bodyValue(todo)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Todo.class)
+                .returnResult()
+                .getResponseBody();
 
         // THEN
-        assertEquals(HttpStatus.OK, postResponse.getStatusCode());
         assertNotNull(actual);
         assertEquals("Dinge tun",  actual.getDescription());
         assertEquals("OPEN",  actual.getStatus());
 
         // THEN: check via GET if element was created
         String actualId = actual.getId();
-        ResponseEntity<Todo> getResponse = restTemplate.getForEntity("/api/todo/" + actualId, Todo.class);
-        Todo persistedTodo = getResponse.getBody();
+        Todo persistedTodo = webTestClient.get()
+                .uri("/api/todo/" + actualId)
+                .headers(http -> http.setBearerAuth(dummyJwt))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Todo.class)
+                .returnResult()
+                .getResponseBody();
+
 
         assertNotNull(persistedTodo);
         assertEquals(actualId, persistedTodo.getId());
@@ -77,14 +94,19 @@ class TodoControllerTest {
         repository.insert(new Todo("2", "chill ", "IN_PROGRESS"));
 
         //WHEN
-        ResponseEntity<Todo[]> response = restTemplate.getForEntity("/api/todo", Todo[].class);
+        List<Todo> actual = webTestClient.get()
+                .uri("/api/todo")
+                .headers(http -> http.setBearerAuth(dummyJwt))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Todo.class)
+                .returnResult()
+                .getResponseBody();
 
         //THEN
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        assertThat(response.getBody(), arrayContainingInAnyOrder(
+        assertThat(actual, containsInAnyOrder(
                 new Todo("1", "sleep", "OPEN"),
                 new Todo("2", "chill ", "IN_PROGRESS")));
-
     }
 
     @Test
@@ -95,7 +117,16 @@ class TodoControllerTest {
 
         //WHEN
         Todo updatedTodo = new Todo("1", "drink", "OPEN");
-        restTemplate.put("/api/todo/1", updatedTodo, Todo.class);
+
+        webTestClient.put()
+                .uri("/api/todo/1")
+                .headers(http -> http.setBearerAuth(dummyJwt))
+                .bodyValue(updatedTodo)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Todo.class)
+                .returnResult()
+                .getResponseBody();
 
         //THEN
         List<Todo> todoItems = repository.findAll();
@@ -111,11 +142,17 @@ class TodoControllerTest {
         repository.insert(new Todo("2", "chill", "IN_PROGRESS"));
 
         //WHEN
-        ResponseEntity<Todo> response = restTemplate.getForEntity("/api/todo/2", Todo.class);
+        Todo actual = webTestClient.get()
+                .uri("/api/todo/2")
+                .headers(http -> http.setBearerAuth(dummyJwt))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Todo.class)
+                .returnResult()
+                .getResponseBody();
 
         //THEN
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        assertThat(response.getBody(), is(new Todo("2", "chill", "IN_PROGRESS")));
+        assertThat(actual, is(new Todo("2", "chill", "IN_PROGRESS")));
 
     }
 
@@ -126,11 +163,38 @@ class TodoControllerTest {
         repository.insert(new Todo("2", "chill", "IN_PROGRESS"));
 
         //WHEN
-        restTemplate.delete("http://localhost:" + port + "/api/todo/2");
+        webTestClient.delete()
+                .uri("/api/todo/2")
+                .headers(http -> http.setBearerAuth(dummyJwt))
+                .exchange()
+                .expectStatus().isOk();
 
         //THEN
         List<Todo> todoItems = repository.findAll();
         assertEquals(todoItems, List.of(new Todo("1", "sleep", "OPEN")));
     }
 
+
+    private String generateJwt() {
+        String hashedPassword = passwordEncoder.encode("some-password");
+        AppUser dummyUser = AppUser.builder()
+                .username("test_username")
+                .password(hashedPassword)
+                .build();
+        appUserRepository.save(dummyUser);
+
+        String jwt = webTestClient.post()
+                .uri("/auth/login")
+                .bodyValue(AppUser.builder()
+                        .username("test_username")
+                        .password("some-password")
+                        .build())
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
+
+        return jwt;
+    }
 }
