@@ -1,28 +1,44 @@
 import axios from 'axios'
 import {Todo} from "../model/Todo";
 
-export const getTodos: () => Promise<Todo[]> = () => {
-    return axios.get<Todo[]>("/api/todo")
+export const getTodos: (token?: string) => Promise<Todo[]> = (token) => {
+    return axios.get<Todo[]>("/api/todo", token
+        ? {headers: {
+                "Authorization": token,
+            }}
+        : {})
         .then(response => response.data)
 }
 
-export const postTodo: (newDescription: string) => Promise<Todo> = (newDescription) => {
+export const postTodo: (newDescription: string, token?: string) => Promise<Todo> = (newDescription, token) => {
     const newTodo = {
         description: newDescription,
         status: 'OPEN',
     }
 
-    return axios.post('/api/todo', newTodo)
+    return axios.post('/api/todo', newTodo, token
+        ? {headers: {
+                "Authorization": token,
+            }}
+        : {})
         .then(response => response.data)
         .then((todo: Todo) => todo)
 }
 
-export const putTodo = (todo: Todo) => {
-    return axios.put(`/api/todo/${todo.id}`, todo).then(response => response.data)
+export const putTodo = (todo: Todo, token?: string) => {
+    return axios.put(`/api/todo/${todo.id}`, todo, token
+        ? {headers: {
+                "Authorization": token,
+            }}
+        : {}).then(response => response.data)
 }
 
-export const deleteTodo: (id: string) => Promise<void> = (id: string) => {
-    return axios.delete(`/api/todo/${id}`)
+export const deleteTodo: (id: string, token?: string) => Promise<void> = (id: string, token) => {
+    return axios.delete(`/api/todo/${id}`, token
+        ? {headers: {
+                "Authorization": token,
+            }}
+        : {})
 }
 
 export const getTodoBy = (id: string) => {

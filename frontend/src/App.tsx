@@ -1,19 +1,20 @@
 import Header from './components/Header'
 
 import NavigationBar from './components/NavigationBar'
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import { Route, Routes} from 'react-router-dom'
 import Homepage from './components/Homepage'
 import DetailsPage from './components/DetailsPage'
 import useTodos from './hooks/useTodos'
 import './App.css'
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import LoginPage from "./pages/LoginPage";
 
 function App() {
     const {todos, addTodo, advanceTodo, removeTodo} = useTodos()
 
     return (
-        <BrowserRouter>
+        <>
             <ToastContainer />
             <div className={"page-layout"}>
                 <Header/>
@@ -27,9 +28,10 @@ function App() {
                         />}
                     />
                     <Route path={'/todo/:id'} element={<DetailsPage/>}/>
+                    <Route path={'/login'} element={<LoginPage/>} />
                 </Routes>
             </div>
-        </BrowserRouter>
+        </>
     )
 }
 
