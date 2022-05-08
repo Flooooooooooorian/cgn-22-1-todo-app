@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+Array [
+  <div
+    className="Toastify"
+  />,
+  <div
+    className="page-layout"
+  >
+    <header>
+      <h1>
+        Super Todo App 📗
+      </h1>
+    </header>
+    <div
+      className="navigation-bar"
+    >
+      <a
+        aria-current="page"
+        className="nav-link active"
+        href="/"
+        onClick={[Function]}
+      >
+        Home
+      </a>
+    </div>
+    <main>
+      <section
+        className="board"
+      >
+        <div>
+          <h2
+            className="board-title"
+          >
+            Open
+          </h2>
+        </div>
+      </section>
+      <section
+        className="board"
+      >
+        <div>
+          <h2
+            className="board-title"
+          >
+            In Progress
+          </h2>
+        </div>
+      </section>
+      <section
+        className="board"
+      >
+        <div>
+          <h2
+            className="board-title"
+          >
+            Done
+          </h2>
+        </div>
+      </section>
+    </main>
+    <form
+      className="add-form"
+      onSubmit={[Function]}
+    >
+      <input
+        className="description-input"
+        onChange={[Function]}
+        placeholder="Add a description..."
+        value=""
+      />
+      <button
+        className="add-button"
+        type="submit"
+      >
+         Add 
+      </button>
+    </form>
+  </div>,
+]
+`;
