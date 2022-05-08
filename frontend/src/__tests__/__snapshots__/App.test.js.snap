@@ -74,7 +74,7 @@ Array [
         className="add-button"
         type="submit"
       >
-         Add
+         Add 
       </button>
     </form>
   </div>,
