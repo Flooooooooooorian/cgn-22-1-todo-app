@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
-import App from "../src/App";
-import AuthProvider from "../src/context/AuthProvider";
+import App from "../App";
+import AuthProvider from "../context/AuthProvider";
 import {BrowserRouter} from "react-router-dom";
 
 it('renders correctly', () => {
