@@ -3,6 +3,8 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 
+const AUTH_KEY = "TOKEN"
+
 export const AuthContext = createContext<{ token: string | undefined, login: (credentials: { username: string, password: string }) => void }>({
     token: undefined,
     login: () => {
@@ -15,13 +17,16 @@ export type AuthProviderProps = {
 }
 
 export default function AuthProvider({children}: AuthProviderProps) {
-    const [token, setToken] = useState<string>()
+    const [token, setToken] = useState<string | undefined>(localStorage.getItem(AUTH_KEY) ?? undefined)
     const navigate = useNavigate();
 
     const login = (credentials: { username: string, password: string }) => {
         axios.post('/auth/login', credentials)
             .then(response => response.data)
-            .then((token) => setToken(token))
+            .then((token) => {
+                setToken(token)
+                localStorage.setItem(AUTH_KEY, token)
+            })
             .then(() => navigate("/"))
             .catch(() => toast.error("Credentials invalid"))
     }

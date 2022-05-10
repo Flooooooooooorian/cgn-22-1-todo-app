@@ -9,6 +9,7 @@ import './App.css'
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import LoginPage from "./pages/LoginPage";
+import RequireAuth from "./routing/RequireAuth";
 
 function App() {
     const {todos, addTodo, advanceTodo, removeTodo} = useTodos()
@@ -20,14 +21,17 @@ function App() {
                 <Header/>
                 <NavigationBar/>
                 <Routes>
-                    <Route path="/" element={<Homepage
-                        todos={todos}
-                        onAdvance={advanceTodo}
-                        onDelete={removeTodo}
-                        onAdd={addTodo}
+                    <Route element={<RequireAuth />}>
+                        <Route path="/" element={<Homepage
+                            todos={todos}
+                            onAdvance={advanceTodo}
+                            onDelete={removeTodo}
+                            onAdd={addTodo}
                         />}
-                    />
-                    <Route path={'/todo/:id'} element={<DetailsPage/>}/>
+                        />
+                        <Route path={'/todo/:id'} element={<DetailsPage/>}/>
+                    </Route>
+
                     <Route path={'/login'} element={<LoginPage/>} />
                 </Routes>
             </div>
