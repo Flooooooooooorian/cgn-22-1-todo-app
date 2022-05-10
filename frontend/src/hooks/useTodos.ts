@@ -40,7 +40,7 @@ export default function useTodos() {
             .then((todos) => setTodos(todos))
             .then(() => toast.success("Done"))
             .catch(() => toast.error("Error while retrieving todos!"))
-    }, [])
+    }, [token])
 
     return {todos, addTodo, advanceTodo, removeTodo}
 }
