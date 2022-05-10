@@ -41,6 +41,10 @@ export const deleteTodo: (id: string, token?: string) => Promise<void> = (id: st
         : {})
 }
 
-export const getTodoBy = (id: string) => {
-    return axios.get(`/api/todo/${id}`)
+export const getTodoBy = (id: string, token?: string) => {
+    return axios.get(`/api/todo/${id}`, token
+        ? {headers: {
+                "Authorization": token,
+            }}
+        : {})
 }
