@@ -15,7 +15,7 @@ export type AuthProviderProps = {
 }
 
 export default function AuthProvider({children}: AuthProviderProps) {
-    const [token, setToken] = useState<string>()
+    const [token, setToken] = useState<string>("abc")
     const navigate = useNavigate();
 
     const login = (credentials: { username: string, password: string }) => {
