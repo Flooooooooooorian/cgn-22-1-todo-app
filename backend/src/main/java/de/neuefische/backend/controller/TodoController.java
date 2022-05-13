@@ -33,15 +33,6 @@ public class TodoController {
         return todoService.addTodo(todo);
     }
 
-    @PutMapping("{id}")
-    public Todo updateTodo(@PathVariable String id, @RequestBody Todo todo){
-
-        if(!id.equals(todo.getId())){
-            throw new IllegalArgumentException("Could not update element! Path id does not match with element id in request body!");
-        }
-
-        return todoService.updateTodo(todo);
-    }
 
     @DeleteMapping("{id}")
     public void deleteTodo(@PathVariable String id){
