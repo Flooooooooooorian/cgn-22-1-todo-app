@@ -2,6 +2,7 @@ import BoardsOverview from './BoardsOverview'
 import NewTodo from './NewTodo'
 import {Todo} from "../model/Todo";
 
+
 type HomepageProps = {
     todos: Todo[]
     onAdvance: (todo: Todo) => void
